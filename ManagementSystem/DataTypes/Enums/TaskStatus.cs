@@ -1,4 +1,4 @@
-﻿namespace ManagementSystem.Enums
+﻿namespace ManagementSystem.DataTypes.Enums
 {
     public enum TaskStatus
     {
