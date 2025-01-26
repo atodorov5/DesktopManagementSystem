@@ -1,4 +1,4 @@
-﻿using ManagementSystem.Enums;
+﻿using ManagementSystem.DataTypes.Enums;
 
 namespace ManagementSystem.Models
 {

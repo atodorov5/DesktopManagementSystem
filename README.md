@@ -7,3 +7,6 @@ Add App.config file:
              connectionString="" />
 </connectionStrings>
 </configuration>
+
+Run Database migrations:
+Update-Database

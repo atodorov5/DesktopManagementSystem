@@ -1,0 +1,34 @@
+﻿<Window x:Class="ManagementSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ManagementSystem" 
+        xmlns:viewModels="clr-namespace:ManagementSystem.ViewModel" d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button Content="Add new task" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding OpenAddNewCommand}" Loaded="AllTasksGrid_Loaded" HorizontalAlignment="Right" Width="75"/>
+        <ListView ItemsSource="{Binding AllTasks}" Margin="11,41,10,195">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="140" Header="CreatedDate" DisplayMemberBinding="{Binding CreatedDate}"  />
+                    <GridViewColumn Width="140" Header="Description" DisplayMemberBinding="{Binding Description}"  />
+                    <GridViewColumn Width="140" Header="Status" DisplayMemberBinding="{Binding Status}"  />
+                    <GridViewColumn Width="140" Header="Type" DisplayMemberBinding="{Binding Type}"  />
+                    <GridViewColumn Width="140" Header="RequiredByDate" DisplayMemberBinding="{Binding RequiredByDate}"  />
+                </GridView>
+            </ListView.View>
+            
+        </ListView>
+        <!--
+        <DataGrid x:Name="MyDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding AllTasks}" Loaded="MyDataGrid_Loaded" Margin="10,257,10,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="CreatedDate" Binding="{Binding CreatedDate}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        -->
+        <Label Content="All Tasks" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="70"/>
+    </Grid>
+</Window>
