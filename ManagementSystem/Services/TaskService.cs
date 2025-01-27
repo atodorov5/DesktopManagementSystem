@@ -1,7 +1,6 @@
 ﻿using ManagementSystem.Data;
 using ManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
 
 namespace ManagementSystem.Services
 {
@@ -19,10 +18,10 @@ namespace ManagementSystem.Services
            await _context.SaveChangesAsync();
         }
 
-        public async Task<ObservableCollection<TaskEntity>> GetAllTasksAsync()
+        public async Task<IEnumerable<TaskEntity>> GetAllTasksAsync()
         {
             var taskList = await _context.Tasks.ToListAsync();
-            return new ObservableCollection<TaskEntity>(taskList);
+            return taskList;
         }
     }
 }

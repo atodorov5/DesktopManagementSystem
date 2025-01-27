@@ -1,5 +1,7 @@
-﻿using ManagementSystem.ViewModel;
+﻿using ManagementSystem.Models;
+using ManagementSystem.ViewModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ManagementSystem.View
 {
@@ -19,6 +21,13 @@ namespace ManagementSystem.View
         private async void AllUsersGrid_Loaded(object sender, RoutedEventArgs e)
         {
             await _createTaskView.LoadUsers();
+        }
+
+        private  void ListboxUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var listSelectedItems = ((ListBox)sender).SelectedItems;
+            var selected = listSelectedItems.Cast<UserEntity>().ToList();
+            _createTaskView.ChangeSelectedUsers(selected);
         }
     }
 }

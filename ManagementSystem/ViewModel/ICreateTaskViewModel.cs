@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using ManagementSystem.Models;
+using System.Windows.Input;
 
 namespace ManagementSystem.ViewModel
 {
@@ -6,5 +7,7 @@ namespace ManagementSystem.ViewModel
     {
         ICommand CreateCommand { get; }
         Task LoadUsers();
+
+        void ChangeSelectedUsers(IEnumerable<UserEntity> userEntity);
     }
 }

@@ -2,9 +2,7 @@
 using ManagementSystem.DataTypes.Enums;
 using ManagementSystem.Models;
 using ManagementSystem.Services;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace ManagementSystem.ViewModel
@@ -18,12 +16,13 @@ namespace ManagementSystem.ViewModel
         private ITaskService _taskService { get; set; }
 
 
-        DateTime createdDate;
-        DateTime requiredByDate;
+        DateTime _createdDate;
+        DateTime _requiredByDate;
         string description;
-        DataTypes.Enums.TaskStatus status;
-        TaskType type;
-        ObservableCollection<UserEntity> users = [];
+        DataTypes.Enums.TaskStatus _status;
+        TaskType _type;
+        IEnumerable<UserEntity> _users = new List<UserEntity>();
+        IEnumerable<UserEntity> _selectedUsers = new List<UserEntity>();
 
         public CreateTaskViewModel(IUserService userService, ITaskService taskService)
         {
@@ -34,14 +33,14 @@ namespace ManagementSystem.ViewModel
 
         public DateTime CreatedDate
         {
-            get { return createdDate; }
-            set { createdDate = value; OnPropertyChanged("CreatedDate"); }
+            get { return _createdDate; }
+            set { _createdDate = value; OnPropertyChanged("CreatedDate"); }
         }
 
         public DateTime RequiredByDate
         {
-            get { return requiredByDate; }
-            set { requiredByDate = value; OnPropertyChanged("RequiredByDate"); }
+            get { return _requiredByDate; }
+            set { _requiredByDate = value; OnPropertyChanged("RequiredByDate"); }
         }
         public string Description
         {
@@ -51,19 +50,19 @@ namespace ManagementSystem.ViewModel
 
         public DataTypes.Enums.TaskStatus Status
         {
-            get { return status; }
-            set { status = value; OnPropertyChanged("Status"); }
+            get { return _status; }
+            set { _status = value; OnPropertyChanged("Status"); }
         }
         public TaskType Type 
         { 
-            get { return type; } 
-            set { type = value; OnPropertyChanged("Type"); } 
+            get { return _type; } 
+            set { _type = value; OnPropertyChanged("Type"); } 
         }
 
-        public ObservableCollection<UserEntity> Users
+        public IEnumerable<UserEntity> Users
         {
-            get { return users; }
-            set { users = value; OnPropertyChanged("Users"); }
+            get { return _users; }
+            set { _users = value; OnPropertyChanged("Users"); }
         }
 
         private async void CreateTask(object obj)
@@ -75,7 +74,7 @@ namespace ManagementSystem.ViewModel
                 Description = Description,
                 Status = Status,
                 Type = Type,
-                Users = Users //TODO Only selected users
+                Users = _selectedUsers,
             };
 
             await _taskService.AddTaskAsync(newTask);
@@ -89,14 +88,12 @@ namespace ManagementSystem.ViewModel
         public async Task LoadUsers()
         {
             var allUsers = await _userService.GetUsersAsync();
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                Users.Clear();
-                foreach (var task in allUsers)
-                {
-                    Users.Add(task);
-                }
-            });
+            Users = allUsers;
+        }
+
+        public void ChangeSelectedUsers(IEnumerable<UserEntity> userEntities)
+        {
+            _selectedUsers = userEntities.ToList();
         }
     }
 }

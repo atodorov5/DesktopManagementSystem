@@ -38,7 +38,7 @@
         <ComboBox HorizontalAlignment="Left" Margin="197,185,0,0" VerticalAlignment="Top" Width="128" ItemsSource="{Binding Source={StaticResource typeEnum}}" SelectedItem="{Binding Type, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Content="Users:" HorizontalAlignment="Left" Margin="79,212,0,0" VerticalAlignment="Top"/>
         <Label Content="ADD NEW TASK" HorizontalAlignment="Left" Margin="150,22,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="listboxFolder1" SelectionMode="Multiple" ItemsSource="{Binding Users}" Loaded="AllUsersGrid_Loaded" Margin="0,212,75,130" HorizontalAlignment="Right" Width="128">
+        <ListBox x:Name="listboxFolder1" SelectionMode="Multiple" SelectionChanged="ListboxUsers_SelectionChanged" ItemsSource="{Binding Users}" Loaded="AllUsersGrid_Loaded" Margin="0,212,75,130" HorizontalAlignment="Right" Width="128">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
