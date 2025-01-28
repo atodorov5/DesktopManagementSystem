@@ -4,7 +4,7 @@ namespace ManagementSystem.Models
 {
     public class TaskEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime RequiredByDate { get; set; }
         public string Description { get; set; } = string.Empty;

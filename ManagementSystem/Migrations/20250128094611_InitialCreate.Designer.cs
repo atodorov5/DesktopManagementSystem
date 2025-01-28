@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250125114239_InitialCreate")]
+    [Migration("20250128094611_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,11 +27,9 @@ namespace ManagementSystem.Migrations
 
             modelBuilder.Entity("ManagementSystem.Models.CommentEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -46,8 +44,8 @@ namespace ManagementSystem.Migrations
                     b.Property<DateTime?>("ReminderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TaskId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -58,11 +56,9 @@ namespace ManagementSystem.Migrations
 
             modelBuilder.Entity("ManagementSystem.Models.TaskEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -90,11 +86,9 @@ namespace ManagementSystem.Migrations
 
             modelBuilder.Entity("ManagementSystem.Models.UserEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -107,11 +101,11 @@ namespace ManagementSystem.Migrations
 
             modelBuilder.Entity("TaskEntityUserEntity", b =>
                 {
-                    b.Property<int>("TasksId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TasksId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("TasksId", "UsersId");
 
