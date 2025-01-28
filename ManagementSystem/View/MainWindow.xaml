@@ -8,8 +8,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Label Content="All Tasks" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="70"/>
         <Button Content="Add new task" Margin="0,10,10,0" VerticalAlignment="Top" Command="{Binding OpenAddNewCommand}" Loaded="AllTasksGrid_Loaded" HorizontalAlignment="Right" Width="75"/>
-        <ListView ItemsSource="{Binding AllTasks}" Margin="11,41,10,195">
+        <ListView ItemsSource="{Binding AllTasks, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="ListViewTasks_SelectionChanged" Margin="11,41,10,0" Height="198" VerticalAlignment="Top">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="140" Header="CreatedDate" DisplayMemberBinding="{Binding CreatedDate}"  />
@@ -19,16 +20,22 @@
                     <GridViewColumn Width="140" Header="RequiredByDate" DisplayMemberBinding="{Binding RequiredByDate}"  />
                 </GridView>
             </ListView.View>
-            
+
         </ListView>
-        <!--
-        <DataGrid x:Name="MyDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding AllTasks}" Loaded="MyDataGrid_Loaded" Margin="10,257,10,10">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="CreatedDate" Binding="{Binding CreatedDate}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        -->
-        <Label Content="All Tasks" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="Comments" HorizontalAlignment="Left" Margin="11,244,0,0" VerticalAlignment="Top"/>
+        <Label Content="*Select Task to show all comments" HorizontalAlignment="Left" Margin="599,244,0,0" VerticalAlignment="Top" Width="201"/>
+        <ListView Name="CommentsListView" ItemsSource="{Binding SelectedTask.Comments}" Margin="10,275,48,10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="140" Header="CreatedDate" DisplayMemberBinding="{Binding DateAdded}"  />
+                    <GridViewColumn Width="140" Header="Description" DisplayMemberBinding="{Binding Comment}"  />
+                    <GridViewColumn Width="140" Header="Type" DisplayMemberBinding="{Binding CommentType}"  />
+                    <GridViewColumn Width="140" Header="Reminder" DisplayMemberBinding="{Binding ReminderDate}"  />
+               
+                    </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="+" Margin="0,275,10,0" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="33" Command="{Binding AddNewCommentCommand}"/>
+        <Button Content="-" Margin="0,316,10,0" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="33" Command="{Binding RemoveCommentCommand}"/>
     </Grid>
 </Window>

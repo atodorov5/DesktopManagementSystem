@@ -4,8 +4,8 @@ namespace ManagementSystem.Models
 {
     public class CommentEntity
     {
-        public int Id { get; set; }
-        public int TaskId { get; set; }
+        public Guid Id { get; set; }
+        public Guid TaskId { get; set; }
         public TaskEntity Task { get; set; }
         public DateTime DateAdded { get; set; }
         public string Comment { get; set; } = string.Empty;

@@ -14,18 +14,23 @@ namespace ManagementSystem.ViewModel
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand OpenAddNewCommand { get; private set; }
+        public ICommand AddNewCommentCommand { get; private set; }
+        public ICommand RemoveCommentCommand { get; private set; }
 
         private readonly ITaskService _taskService;
         private ICreateTaskViewModel _createTaskViewModel;
 
 
         ObservableCollection<TaskEntity> _tasks = new ObservableCollection<TaskEntity>();
+        private TaskEntity _selectedTask;
 
         public MainViewModel(ITaskService taskService, ICreateTaskViewModel createTaskViewModel)
         {
             _taskService = taskService;
-            OpenAddNewCommand = new RelayCommand(OpenAddNew);
             _createTaskViewModel = createTaskViewModel;
+            OpenAddNewCommand = new RelayCommand(OpenAddNew);
+            AddNewCommentCommand = new RelayCommand(AddNewComment);
+            RemoveCommentCommand = new RelayCommand(RemoveComment);
         }
 
         public ObservableCollection<TaskEntity> AllTasks
@@ -34,10 +39,27 @@ namespace ManagementSystem.ViewModel
             set { _tasks = value; OnPropertyChanged("AllTasks"); }
         }
 
+        public TaskEntity SelectedTask
+        {
+            get { return _selectedTask; }
+            set { _selectedTask = value; OnPropertyChanged("SelectedTask"); }
+        }
+
+
         private void OpenAddNew(object obj)
         {
             var mainWindow = new CreateTaskView(_createTaskViewModel);
             mainWindow.Show();
+        }
+
+        private void AddNewComment(object obj)
+        {
+
+        }
+
+        private void RemoveComment(object obj)
+        {
+
         }
 
         public async Task GetTasks()
@@ -53,9 +75,16 @@ namespace ManagementSystem.ViewModel
             });
         }
 
+        public async void ChangeSelectedTask(TaskEntity taskEntity)
+        {
+            var task = await _taskService.GetTaskWithCommentsAsync(taskEntity.Id);
+            SelectedTask = task;
+        }
+
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
     }
 }

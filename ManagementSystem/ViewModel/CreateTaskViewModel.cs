@@ -78,6 +78,7 @@ namespace ManagementSystem.ViewModel
             };
 
             await _taskService.AddTaskAsync(newTask);
+            //TODO Close window and refresh mainWindow
         }
 
         protected void OnPropertyChanged(string name)

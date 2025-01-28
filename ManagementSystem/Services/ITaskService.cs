@@ -1,5 +1,4 @@
 ﻿using ManagementSystem.Models;
-using System.Collections.ObjectModel;
 
 namespace ManagementSystem.Services
 {
@@ -7,5 +6,6 @@ namespace ManagementSystem.Services
     {
         Task AddTaskAsync(TaskEntity taskEntity);
         Task<IEnumerable<TaskEntity>> GetAllTasksAsync();
+        Task<TaskEntity> GetTaskWithCommentsAsync(Guid taskId);
     }
 }

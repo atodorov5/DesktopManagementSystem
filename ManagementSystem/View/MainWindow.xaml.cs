@@ -1,6 +1,8 @@
-﻿using ManagementSystem.View;
+﻿using ManagementSystem.Models;
+using ManagementSystem.View;
 using ManagementSystem.ViewModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ManagementSystem
 {
@@ -22,6 +24,13 @@ namespace ManagementSystem
         private async void AllTasksGrid_Loaded(object sender, RoutedEventArgs e)
         {
             await _viewModel.GetTasks();
+        }
+
+
+        private void ListViewTasks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = ((ListBox)sender).SelectedItem;
+            _viewModel.ChangeSelectedTask((TaskEntity)selectedItem);
         }
     }
 }

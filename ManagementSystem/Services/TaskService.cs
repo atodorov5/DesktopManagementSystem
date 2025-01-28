@@ -23,5 +23,13 @@ namespace ManagementSystem.Services
             var taskList = await _context.Tasks.ToListAsync();
             return taskList;
         }
+
+        public async Task<TaskEntity> GetTaskWithCommentsAsync(Guid taskId)
+        {
+            return await _context.Tasks
+                .Include(t => t.Comments)          
+                .Where(t => t.Id == taskId)
+                .FirstOrDefaultAsync();
+        }
     }
 }

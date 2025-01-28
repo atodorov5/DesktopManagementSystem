@@ -61,7 +61,6 @@ namespace ManagementSystem
                     {
                         options.UseSqlServer(ConfigurationManager.ConnectionStrings["SQLConnection"].ConnectionString);
                     });
-                    services.AddScoped<IUserService, UserService>();
 
                 }).Build();
 
