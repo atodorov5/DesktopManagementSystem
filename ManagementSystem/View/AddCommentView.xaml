@@ -1,0 +1,31 @@
+﻿<Window x:Class="ManagementSystem.View.AddCommentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ManagementSystem.View"        
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:EnumAlias="clr-namespace:ManagementSystem.DataTypes.Enums"
+        xmlns:viewModels="clr-namespace:ManagementSystem.ViewModel" d:DataContext="{d:DesignInstance Type=viewModels:AddCommentViewModel}"
+        mc:Ignorable="d"
+        Title="AddCommentView" Height="251" Width="423">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="commentTypeEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="EnumAlias:CommentType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Label Content="Add new comment" HorizontalAlignment="Center" Margin="0,18,0,0" VerticalAlignment="Top"/>
+        <Label Content="Comment:" HorizontalAlignment="Left" Margin="116,56,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="186,60,0,0" TextWrapping="Wrap" Text="{Binding Comment}" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Type:" HorizontalAlignment="Left" Margin="144,85,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="186,87,0,0" VerticalAlignment="Top" Width="120"  ItemsSource="{Binding Source={StaticResource commentTypeEnum}}" SelectedItem="{Binding CommentType}"/>
+        <Label Content="Reminder Date:" HorizontalAlignment="Left" Margin="89,118,0,0" VerticalAlignment="Top"/>
+        <DatePicker HorizontalAlignment="Left" Margin="186,118,0,0" VerticalAlignment="Top" Width="120" SelectedDate="{Binding ReminderDate}"/>
+        <Button Content="Save" HorizontalAlignment="Center" Margin="0,177,0,0" VerticalAlignment="Top" Width="75" Command="{Binding AddNewCommentCommand}"/>
+
+    </Grid>
+</Window>

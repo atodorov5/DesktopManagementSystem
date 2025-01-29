@@ -16,6 +16,7 @@ namespace ManagementSystem
     {
         private readonly IHost host;
         private IServiceProvider _serviceProvider;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             var serviceCollection = new ServiceCollection();
@@ -33,12 +34,14 @@ namespace ManagementSystem
             services.AddLogging();
 
             // Register Services
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<ITaskService, TaskService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ICommentService, CommentService>();
 
             // Register ViewModels
             services.AddSingleton<ICreateTaskViewModel, CreateTaskViewModel>();
             services.AddSingleton<IMainViewModel, MainViewModel>();
+            services.AddSingleton<IAddCommentViewModel, AddCommentViewModel>();
 
             // Register Views
             services.AddSingleton<MainWindow>();
@@ -50,7 +53,6 @@ namespace ManagementSystem
             });
         }
 
-        /*
         public App()
         {
             host = new HostBuilder()
@@ -63,7 +65,6 @@ namespace ManagementSystem
                     });
 
                 }).Build();
-
-        }*/
+        }
     }
 }

@@ -18,19 +18,25 @@ namespace ManagementSystem.ViewModel
         public ICommand RemoveCommentCommand { get; private set; }
 
         private readonly ITaskService _taskService;
+        private readonly ICommentService _commentService;
         private ICreateTaskViewModel _createTaskViewModel;
+        private IAddCommentViewModel _addCommentViewModel;
 
 
         ObservableCollection<TaskEntity> _tasks = new ObservableCollection<TaskEntity>();
         private TaskEntity _selectedTask;
+        private CommentEntity _selectedComment;
 
-        public MainViewModel(ITaskService taskService, ICreateTaskViewModel createTaskViewModel)
+        public MainViewModel(ITaskService taskService, ICreateTaskViewModel createTaskViewModel,
+            ICommentService commentService, IAddCommentViewModel addCommentViewModel)
         {
             _taskService = taskService;
+            _commentService = commentService;
             _createTaskViewModel = createTaskViewModel;
-            OpenAddNewCommand = new RelayCommand(OpenAddNew);
+            OpenAddNewCommand = new RelayCommand(OpenAddNewTask);
             AddNewCommentCommand = new RelayCommand(AddNewComment);
             RemoveCommentCommand = new RelayCommand(RemoveComment);
+            _addCommentViewModel = addCommentViewModel;
         }
 
         public ObservableCollection<TaskEntity> AllTasks
@@ -45,40 +51,60 @@ namespace ManagementSystem.ViewModel
             set { _selectedTask = value; OnPropertyChanged("SelectedTask"); }
         }
 
-
-        private void OpenAddNew(object obj)
+        private void OpenAddNewTask(object obj)
         {
-            var mainWindow = new CreateTaskView(_createTaskViewModel);
-            mainWindow.Show();
+            var addTaskWindow = new CreateTaskView(_createTaskViewModel);
+            addTaskWindow.Show();
         }
 
         private void AddNewComment(object obj)
         {
-
+            if (SelectedTask != null)
+            {
+                _addCommentViewModel.SelectedTask = SelectedTask;
+                var addCommentWindow = new AddCommentView(_addCommentViewModel);
+                addCommentWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please first select task!",
+                    "Task not selected",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
         }
 
-        private void RemoveComment(object obj)
+        private async void RemoveComment(object obj)
         {
-
+            if (SelectedTask != null) // task and comment is selected
+            {
+                //remove the selected comment
+                await _commentService.RemoveCommentAsync(_selectedComment.Id);
+               
+            }
+            else
+            {
+                MessageBox.Show("Please first select task and comment!",
+                    "Comment not selected",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
         }
 
         public async Task GetTasks()
         {
             var allTasks = await _taskService.GetAllTasksAsync();
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                AllTasks.Clear();
-                foreach (var task in allTasks)
-                {
-                    AllTasks.Add(task);
-                }
-            });
+            AllTasks = new ObservableCollection<TaskEntity>(allTasks);
         }
 
         public async void ChangeSelectedTask(TaskEntity taskEntity)
         {
             var task = await _taskService.GetTaskWithCommentsAsync(taskEntity.Id);
             SelectedTask = task;
+        }
+        public void ChangeSelectedComment(CommentEntity commentEntity)
+        {
+            _selectedComment = commentEntity;
         }
 
         protected void OnPropertyChanged(string name)

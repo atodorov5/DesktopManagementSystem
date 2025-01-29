@@ -16,8 +16,8 @@ namespace ManagementSystem.ViewModel
         private ITaskService _taskService { get; set; }
 
 
-        DateTime _createdDate;
-        DateTime _requiredByDate;
+        DateTime _createdDate = DateTime.Now;
+        DateTime _requiredByDate = DateTime.Now;
         string description;
         DataTypes.Enums.TaskStatus _status;
         TaskType _type;

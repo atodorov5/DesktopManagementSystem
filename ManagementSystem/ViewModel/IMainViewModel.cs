@@ -11,5 +11,6 @@ namespace ManagementSystem.ViewModel
         Task GetTasks();
 
         void ChangeSelectedTask(TaskEntity taskEntity);
+        void ChangeSelectedComment(CommentEntity commentEntity);
     }
 }

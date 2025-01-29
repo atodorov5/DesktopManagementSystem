@@ -1,4 +1,5 @@
 ﻿using ManagementSystem.DataTypes.Enums;
+using System.Collections.ObjectModel;
 
 namespace ManagementSystem.Models
 {
@@ -12,6 +13,6 @@ namespace ManagementSystem.Models
         public TaskType Type { get; set; }
         public IEnumerable<UserEntity> Users { get; set; } = [];
         public DateTime? NextActionDate { get; set; }
-        public IEnumerable<CommentEntity> Comments { get; set; }
+        public ObservableCollection <CommentEntity> Comments { get; set; }
     }
 }

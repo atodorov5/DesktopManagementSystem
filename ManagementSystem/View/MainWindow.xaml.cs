@@ -32,5 +32,11 @@ namespace ManagementSystem
             var selectedItem = ((ListBox)sender).SelectedItem;
             _viewModel.ChangeSelectedTask((TaskEntity)selectedItem);
         }
+
+        private void CommentsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = ((ListBox)sender).SelectedItem;
+            _viewModel.ChangeSelectedComment((CommentEntity)selectedItem);
+        }
     }
 }

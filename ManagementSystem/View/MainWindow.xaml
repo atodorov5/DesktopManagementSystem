@@ -24,7 +24,7 @@
         </ListView>
         <Label Content="Comments" HorizontalAlignment="Left" Margin="11,244,0,0" VerticalAlignment="Top"/>
         <Label Content="*Select Task to show all comments" HorizontalAlignment="Left" Margin="599,244,0,0" VerticalAlignment="Top" Width="201"/>
-        <ListView Name="CommentsListView" ItemsSource="{Binding SelectedTask.Comments}" Margin="10,275,48,10">
+        <ListView Name="CommentsListView" ItemsSource="{Binding SelectedTask.Comments}" SelectionChanged="CommentsListView_SelectionChanged" Margin="10,275,48,10">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="140" Header="CreatedDate" DisplayMemberBinding="{Binding DateAdded}"  />

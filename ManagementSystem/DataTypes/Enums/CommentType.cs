@@ -2,6 +2,7 @@
 {
     public enum CommentType
     {
-        Info
+        Info,
+        Warning
     }
 }
