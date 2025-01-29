@@ -3,6 +3,7 @@ using ManagementSystem.DataTypes.Enums;
 using ManagementSystem.Models;
 using ManagementSystem.Services;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ManagementSystem.ViewModel
@@ -63,7 +64,17 @@ namespace ManagementSystem.ViewModel
             };
 
             await _commentService.AddNewCommentAsync(newComment);
+
             // Close the window
+            // TODO: find better way
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.DataContext == this)
+                {
+                    window.Close();
+                    break;
+                }
+            }
         }
 
         protected void OnPropertyChanged(string name)
