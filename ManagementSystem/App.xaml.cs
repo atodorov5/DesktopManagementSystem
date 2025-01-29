@@ -14,18 +14,34 @@ namespace ManagementSystem
     /// </summary>
     public partial class App : Application
     {
-        private readonly IHost host;
-        private IServiceProvider _serviceProvider;
+        private readonly IHost _host;
 
-        protected override void OnStartup(StartupEventArgs e)
+        public App()
         {
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
+            _host = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
+                {
+                    ConfigureServices(services);
+                })
+                .Build();
+        }
 
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            await _host.StartAsync();
 
-            var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+            var mainWindow = _host.Services.GetRequiredService<MainWindow>();
             mainWindow.Show();
+
+            base.OnStartup(e);
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            await _host.StopAsync();
+            _host.Dispose();
+
+            base.OnExit(e);
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -33,38 +49,24 @@ namespace ManagementSystem
             // Configure Logging
             services.AddLogging();
 
+            // Register DbContext
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(ConfigurationManager.ConnectionStrings["SQLConnection"].ConnectionString);
+            });
+
             // Register Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ICommentService, CommentService>();
 
             // Register ViewModels
-            services.AddSingleton<ICreateTaskViewModel, CreateTaskViewModel>();
-            services.AddSingleton<IMainViewModel, MainViewModel>();
-            services.AddSingleton<IAddCommentViewModel, AddCommentViewModel>();
+            services.AddScoped<ICreateTaskViewModel, CreateTaskViewModel>();
+            services.AddScoped<IMainViewModel, MainViewModel>();
+            services.AddScoped<IAddCommentViewModel, AddCommentViewModel>();
 
             // Register Views
-            services.AddSingleton<MainWindow>();
-
-            //Add business services as needed
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer(ConfigurationManager.ConnectionStrings["SQLConnection"].ConnectionString);
-            });
-        }
-
-        public App()
-        {
-            host = new HostBuilder()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    //Add business services as needed
-                    services.AddDbContext<AppDbContext>(options =>
-                    {
-                        options.UseSqlServer(ConfigurationManager.ConnectionStrings["SQLConnection"].ConnectionString);
-                    });
-
-                }).Build();
+            services.AddScoped<MainWindow>();
         }
     }
 }
